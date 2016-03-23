@@ -21,13 +21,19 @@ view  model =
   ]
 
 -- UPDATE : prend un model, le met à jour, et retourne un nouveau modèle
+type Action = Decrement | Increment | NoOp
+
 inputsSignal : Signal Time
 inputsSignal =
   every second
 
+actionsSignal : Signal Action
+actionsSignal =
+  Signal.map (\_ -> Increment) inputsSignal
+
 modelsSignal : Signal Model
 modelsSignal =
-  Signal.foldp update initialModel inputsSignal
+  Signal.foldp update initialModel actionsSignal
 
 update input model =
   model + 1
