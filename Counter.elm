@@ -27,16 +27,15 @@ type Action = Decrement | Increment | NoOp
 -- { address : Signal.Address Action, signal: Signal Action }
 mailbox = Signal.mailbox NoOp
 
-actionsSignal : Signal Action
-actionsSignal =
-  mailbox.signal
-
 modelsSignal : Signal Model
 modelsSignal =
-  Signal.foldp update initialModel actionsSignal
+  Signal.foldp update initialModel mailbox.signal
 
-update input model =
-  model + 1
+update action model =
+  case action of
+    Increment -> model + 1
+    Decrement -> model - 1
+    NoOp -> model
 
 main : Signal Html
 main =
