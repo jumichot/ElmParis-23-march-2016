@@ -27,15 +27,10 @@ inputsSignal =
 
 modelsSignal : Signal Model
 modelsSignal =
-  Signal.map inputToModel inputsSignal
+  Signal.foldp update initialModel inputsSignal
 
-inputToModel input =
-  initialModel
-
-update model =
-  model
-
-
+update input model =
+  model + 1
 
 main : Signal Html
 main =
