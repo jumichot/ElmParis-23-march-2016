@@ -1,1 +1,3 @@
-main = 0
+import Html exposing(..)
+main =
+  text "Hello World !"
