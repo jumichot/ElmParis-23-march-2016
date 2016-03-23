@@ -20,8 +20,12 @@ view  model =
   ]
 
 -- UPDATE : prend un model, le met à jour, et retourne un nouveau modèle
+inputsSignal =
+  every second
+
 update model =
   model + 20
+
 
 
 main : Html
