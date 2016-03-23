@@ -10,7 +10,7 @@ import Time exposing(..)
 type alias Model = Int
 
 initialModel : Model
-initialModel = 10
+initialModel = 0
 
 -- VIEW : prend un model, et assure le rendu 
 view  model =
@@ -33,10 +33,10 @@ inputToModel input =
   initialModel
 
 update model =
-  model + 20
+  model
 
 
 
-main : Html
+main : Signal Html
 main =
-  view (update initialModel)
+  Signal.map view modelsSignal
