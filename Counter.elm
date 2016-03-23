@@ -1,15 +1,14 @@
 import Html exposing(..)
 import Html.Attributes exposing(..)
 import Html.Events exposing(..)
-import Time exposing(..)
-
+import StartApp.Simple as StartApp
 
 type alias Model = Int
 
 initialModel : Model
 initialModel = 0
 
-view address  model =
+view address model =
   div [ class "container" ] [
     button [onClick address Decrement ] [ text "Decrement" ]
     , text (toString model)
@@ -17,12 +16,6 @@ view address  model =
   ]
 
 type Action = Decrement | Increment | NoOp
-
-mailbox = Signal.mailbox NoOp
-
-modelsSignal : Signal Model
-modelsSignal =
-  Signal.foldp update initialModel mailbox.signal
 
 update action model =
   case action of
@@ -32,4 +25,4 @@ update action model =
 
 main : Signal Html
 main =
-  Signal.map (view mailbox.address) modelsSignal
+  StartApp.start { view = view, update = update, model = initialModel }
