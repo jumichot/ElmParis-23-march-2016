@@ -1,5 +1,6 @@
 import Html exposing(..)
 import Html.Attributes exposing(..)
+import Time exposing(..)
 
 -- Spec du projet : faire un compteur
 -- [Decrement] 0 [Increment]
@@ -20,8 +21,16 @@ view  model =
   ]
 
 -- UPDATE : prend un model, le met à jour, et retourne un nouveau modèle
+inputsSignal : Signal Time
 inputsSignal =
   every second
+
+modelsSignal : Signal Model
+modelsSignal =
+  Signal.map inputToModel inputsSignal
+
+inputToModel input =
+  initialModel
 
 update model =
   model + 20
