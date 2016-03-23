@@ -1,5 +1,6 @@
 import Html exposing(..)
 import Html.Attributes exposing(..)
+import Html.Events exposing(..)
 import Time exposing(..)
 
 -- Spec du projet : faire un compteur
@@ -13,23 +14,22 @@ initialModel : Model
 initialModel = 0
 
 -- VIEW : prend un model, et assure le rendu 
-view  model =
+view address  model =
   div [ class "container" ] [
-    button [] [ text "Decrement" ]
+    button [onClick address Decrement ] [ text "Decrement" ]
     , text (toString model)
-    , button [] [ text "Increment" ]
+    , button [onClick address Increment ] [ text "Increment" ]
   ]
 
 -- UPDATE : prend un model, le met à jour, et retourne un nouveau modèle
 type Action = Decrement | Increment | NoOp
 
-inputsSignal : Signal Time
-inputsSignal =
-  every second
+-- { address : Signal.Address Action, signal: Signal Action }
+mailbox = Signal.mailbox NoOp
 
 actionsSignal : Signal Action
 actionsSignal =
-  Signal.map (\_ -> Increment) inputsSignal
+  mailbox.signal
 
 modelsSignal : Signal Model
 modelsSignal =
@@ -40,4 +40,4 @@ update input model =
 
 main : Signal Html
 main =
-  Signal.map view modelsSignal
+  Signal.map (view mailbox.address) modelsSignal
